@@ -37,7 +37,7 @@ class RollingUpdater(object):
                     self.old_rc.name
                 ))
         new_labels = self.new_rc.obj["spec"]["template"]["metadata"]["labels"]
-        new_labels_set = set ((x, new_labels[x]) for x in new_labels)
+        new_labels_set = set((x, new_labels[x]) for x in new_labels)
         new_selector_set = set((x, new_selector[x]) for x in new_selector)
         if not new_selector_set <= new_labels_set:
             raise KubernetesError(
