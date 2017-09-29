@@ -62,6 +62,13 @@ Query for all ready pods in a custom namespace:
     pods = pykube.Pod.objects(api).filter(namespace="gondor-system")
     ready_pods = filter(operator.attrgetter("ready"), pods)
 
+Access any attribute of the Kubernetes object:
+
+.. code:: python
+
+    pod = pykube.Pod.objects(api).filter(namespace="gondor-system").get(name="my-pod")
+    pod.obj["spec"]["containers"][0]["image"]
+
 Selector query:
 
 .. code:: python
@@ -78,16 +85,13 @@ Watch query:
 
 .. code:: python
 
-    watch = pykube.Job.objects(
-            api,
-            namespace="gondor-system")
-        .filter(field_selector={"metadata.name":"my-job"})
-        .watch()
-    
+    watch = pykube.Job.objects(api, namespace="gondor-system")
+    watch = watch.filter(field_selector={"metadata.name": "my-job"}).watch()
+
     # watch is a generator:
     for watch_event in watch:
-        print(watch.type) # 'ADDED', 'DELETED', 'MODIFIED'
-        print(watch.object) # pykube.Job object
+        print(watch_event.type) # 'ADDED', 'DELETED', 'MODIFIED'
+        print(watch_event.object) # pykube.Job object
 
 Create a ReplicationController:
 
@@ -147,6 +151,19 @@ Check server version:
 
     api = pykube.HTTPClient(pykube.KubeConfig.from_file("/Users/<username>/.kube/config"))
     api.version
+
+HTTPie
+------
+
+pykube can be used together with HTTPie for Kubernetes command line querying goodness. For example:
+
+.. code:: shell
+
+    pip install httpie
+    http pykube://minikube/api/v1/services
+
+The above example will construct an HTTP request to the cluster behind the ``minikube`` context and
+show you the response containing all services.
 
 Requirements
 ------------

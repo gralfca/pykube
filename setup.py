@@ -1,13 +1,26 @@
+import sys
+
 from setuptools import setup, find_packages
 
 
 with open("README.rst") as fp:
     long_description = fp.read()
 
+install_requires = [
+    "requests>=2.12",
+    "PyYAML",
+    "six>=1.10.0",
+    "tzlocal",
+]
+
+if sys.version_info < (3,):
+    install_requires.extend([
+        "ipaddress",
+    ])
 
 setup(
     name="pykube",
-    version="0.15.0",
+    version="0.16a1",
     description="Python client library for Kubernetes",
     long_description=long_description,
     author="Eldarion, Inc.",
@@ -24,12 +37,16 @@ setup(
     ],
     zip_safe=False,
     packages=find_packages(),
-    install_requires=[
-        "requests>=2.12",
-        "requests-oauthlib",
-        "PyYAML",
-        "six>=1.10.0",
-        "tzlocal",
-        "oauth2client",
-    ],
+    entry_points={
+        "httpie.plugins.transport.v1": [
+            "httpie_pykube = pykube.contrib.httpie_plugin:PyKubeTransportPlugin"
+        ],
+    },
+    install_requires=install_requires,
+    extras_require={
+        "gcp": [
+            "google-auth",
+            "jsonpath-ng",
+        ]
+    },
 )
