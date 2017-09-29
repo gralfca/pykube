@@ -442,28 +442,28 @@ class StatefulSet(NamespacedAPIObject, ReplicatedMixin, ScalableMixin):
 
 class Role(NamespacedAPIObject):
 
-    version = "rbac.authorization.k8s.io/v1beta1"
+    version = "rbac.authorization.k8s.io/v1alpha1"
     endpoint = "roles"
     kind = "Role"
 
 
 class RoleBinding(NamespacedAPIObject):
 
-    version = "rbac.authorization.k8s.io/v1beta1"
+    version = "rbac.authorization.k8s.io/v1alpha1"
     endpoint = "rolebindings"
     kind = "RoleBinding"
 
 
 class ClusterRole(APIObject):
 
-    version = "rbac.authorization.k8s.io/v1beta1"
+    version = "rbac.authorization.k8s.io/v1alpha1"
     endpoint = "clusterroles"
     kind = "ClusterRole"
 
 
 class ClusterRoleBinding(APIObject):
 
-    version = "rbac.authorization.k8s.io/v1beta1"
+    version = "rbac.authorization.k8s.io/v1alpha1"
     endpoint = "clusterrolebindings"
     kind = "ClusterRoleBinding"
 
