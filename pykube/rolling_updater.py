@@ -37,7 +37,9 @@ class RollingUpdater(object):
                     self.old_rc.name
                 ))
         new_labels = self.new_rc.obj["spec"]["template"]["metadata"]["labels"]
-        if new_selector != new_labels:
+        new_labels_set = set((x, new_labels[x]) for x in new_labels)
+        new_selector_set = set((x, new_selector[x]) for x in new_selector)
+        if not new_selector_set <= new_labels_set:
             raise KubernetesError(
                 "The ReplicationController {} is invalid. spec.template.metadata.labels: Invalid value: {}: `selector` does not match template `labels` {}".format(
                     self.new_rc.name,
