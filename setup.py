@@ -10,7 +10,7 @@ install_requires = [
     "requests>=2.12",
     "PyYAML",
     "six>=1.10.0",
-    "tzlocal",
+    "tzlocal==1.5.1",
 ]
 
 if sys.version_info < (3,):
